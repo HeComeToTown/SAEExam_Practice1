@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
             _pickupOverlay.gameObject.SetActive(true);
             _pickupOverlay.text = hit.collider.gameObject.GetComponent<Item>().Properties.ItemName + " (E to Pickup)";
 
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) && InventoryInstance.CurrentWeight <= InventoryInstance.MaximumWeight)
             {
                 animator.SetBool("Pickup", true);
                 StartCoroutine(PickUpItem(hit.collider.gameObject.GetComponent<Item>()));
@@ -120,18 +120,21 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator PickUpItem(Item item)
     {
-        yield return new WaitForSeconds(1.2f);
-        InventoryInstance.InventoryChanged(item, true);
-        GameObject itemDisplay = Instantiate(_itemDisplay, Vector3.zero, Quaternion.identity);
-        itemDisplay.transform.parent = _itemsList.transform;
-        itemDisplay.GetComponent<ItemDisplay>().MyItme = item;
-        itemDisplay.GetComponent<ItemDisplay>().DetailsDisplay = _itemDetails;
-        if (InventoryInstance.inventory.Count < 2)
+        if (item != null)
         {
-            _itemDetails.UpdateItemDetailsOverlay(item.Properties.ItemName, item.Properties.Weight, item.Properties.Value, item.Properties.Description, item.Properties.Category.ToString());
+            yield return new WaitForSeconds(1.2f);
+            InventoryInstance.InventoryChanged(item, true);
+            GameObject itemDisplay = Instantiate(_itemDisplay, Vector3.zero, Quaternion.identity);
+            itemDisplay.transform.parent = _itemsList.transform;
+            itemDisplay.GetComponent<ItemDisplay>().MyItme = item;
+            itemDisplay.GetComponent<ItemDisplay>().DetailsDisplay = _itemDetails;
+            if (InventoryInstance.inventory.Count < 2)
+            {
+                _itemDetails.UpdateItemDetailsOverlay(item.Properties.ItemName, item.Properties.Weight, item.Properties.Value, item.Properties.Description, item.Properties.Category.ToString());
+            }
+            Destroy(item.gameObject);
+            animator.SetBool("Pickup", false);
         }
-        Destroy(item.gameObject);
-        animator.SetBool("Pickup", false);
     }
 
     private void OpenCloseInventory()

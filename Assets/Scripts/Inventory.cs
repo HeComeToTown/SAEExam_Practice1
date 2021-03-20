@@ -5,8 +5,8 @@ using UnityEngine;
 public class Inventory
 {
     public List<Item> inventory = new List<Item>();
-    public float MaximumWeight;
-    public float CurrentWeight;
+    public float MaximumWeight = 15;
+    public float CurrentWeight = 0;
 
     public void InventoryChanged(Item itemToChange, bool add)
     {
