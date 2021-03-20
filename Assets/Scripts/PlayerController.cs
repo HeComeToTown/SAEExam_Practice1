@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform followTransform;
     [SerializeField] Animator animator;
     [SerializeField] Rigidbody rigidbody;
+    [SerializeField] private TMP_Text _pickupOverlay;
 
     Vector2 moveInput;
     Vector2 lookInput;
@@ -22,11 +23,27 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
+    private void Update()
+    {
+        PickUpCheck();
+    }
+
     private void FixedUpdate()
+    {
+        if (!animator.GetBool("Pickup"))
+        {
+            Movement();
+        }
+    }
+
+    private void Movement()
     {
         moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         lookInput = new Vector2(Input.GetAxis("Mouse X"), -Input.GetAxis("Mouse Y"));
-        sprintInput = Input.GetAxis("Sprint");
+        if (Inventory.Instance.CurrentWeight <= Inventory.Instance.MaximumWeight)
+        {
+            sprintInput = Input.GetAxis("Sprint");
+        }
 
         UpdateFollowTargetRotation();
 
@@ -70,5 +87,30 @@ public class PlayerController : MonoBehaviour
         followTransform.localEulerAngles = angles;
     }
 
+    private void PickUpCheck()
+    {
+        RaycastHit hit;  
+        if (Physics.Raycast(transform.position, followTransform.forward, out hit, 3f) && hit.collider.gameObject.GetComponent<Item>())
+        {
+            _pickupOverlay.gameObject.SetActive(true);
+            _pickupOverlay.text = hit.collider.gameObject.GetComponent<Item>().Properties.ItemName + " (E to Pickup)";
 
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                animator.SetBool("Pickup", true);
+                StartCoroutine(PickUpItem(hit.collider.gameObject));
+            }
+        }
+        else
+        {
+            _pickupOverlay.gameObject.SetActive(false);
+        }
+    }
+
+    IEnumerator PickUpItem(GameObject item)
+    {
+        yield return new WaitForSeconds(1.2f);
+        Destroy(item);
+        animator.SetBool("Pickup", false);
+    }
 }
