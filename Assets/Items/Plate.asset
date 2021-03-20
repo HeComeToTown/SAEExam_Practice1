@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Plate
   m_EditorClassIdentifier: 
   ItemName: Plate
-  Weight: 0
-  Value: 0
-  Description: 
-  Category: 
+  Weight: 0.4
+  Value: 2
+  Description: May be thrown at an enemy for a quick knockback or at a surface to
+    make noise an attract unsuspecting bypassers.
+  Category: 0

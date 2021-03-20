@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Grass
   m_EditorClassIdentifier: 
   ItemName: Grass
-  Weight: 0
+  Weight: 0.1
   Value: 0
-  Description: 
-  Category: 
+  Description: Some grass. Does nothing really.
+  Category: 3

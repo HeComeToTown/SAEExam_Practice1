@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Stones
   m_EditorClassIdentifier: 
   ItemName: Stones
-  Weight: 0
-  Value: 0
-  Description: 
-  Category: 
+  Weight: 8.2
+  Value: 3
+  Description: Some mined stones. Not really any type of rare ore, but some pig might
+    build resistant houses from it.
+  Category: 3

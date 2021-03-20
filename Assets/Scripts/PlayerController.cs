@@ -13,24 +13,35 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] Rigidbody rigidbody;
     [SerializeField] private TMP_Text _pickupOverlay;
+    [SerializeField] private GameObject _inventoryOverlay;
+    [SerializeField] private GameObject _itemsList;
+    [SerializeField] private GameObject _itemDisplay;
+    [SerializeField] private ItemDetails _itemDetails;
 
     Vector2 moveInput;
     Vector2 lookInput;
     float sprintInput;
+    private bool _gamePaused;
+    private Inventory InventoryInstance;
 
     private void Start()
     {
+        InventoryInstance = new Inventory();
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
     {
-        PickUpCheck();
+        OpenCloseInventory();
+        if (!_gamePaused)
+        {
+            PickUpCheck();
+        }
     }
 
     private void FixedUpdate()
     {
-        if (!animator.GetBool("Pickup"))
+        if (!animator.GetBool("Pickup") && !_gamePaused)
         {
             Movement();
         }
@@ -40,7 +51,7 @@ public class PlayerController : MonoBehaviour
     {
         moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         lookInput = new Vector2(Input.GetAxis("Mouse X"), -Input.GetAxis("Mouse Y"));
-        if (Inventory.Instance.CurrentWeight <= Inventory.Instance.MaximumWeight)
+        if (InventoryInstance.CurrentWeight <= InventoryInstance.MaximumWeight)
         {
             sprintInput = Input.GetAxis("Sprint");
         }
@@ -98,7 +109,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 animator.SetBool("Pickup", true);
-                StartCoroutine(PickUpItem(hit.collider.gameObject));
+                StartCoroutine(PickUpItem(hit.collider.gameObject.GetComponent<Item>()));
             }
         }
         else
@@ -107,10 +118,29 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    IEnumerator PickUpItem(GameObject item)
+    IEnumerator PickUpItem(Item item)
     {
         yield return new WaitForSeconds(1.2f);
-        Destroy(item);
+        InventoryInstance.InventoryChanged(item, true);
+        GameObject itemDisplay = Instantiate(_itemDisplay, Vector3.zero, Quaternion.identity);
+        itemDisplay.transform.parent = _itemsList.transform;
+        itemDisplay.GetComponent<ItemDisplay>().MyItme = item;
+        itemDisplay.GetComponent<ItemDisplay>().DetailsDisplay = _itemDetails;
+        if (InventoryInstance.inventory.Count < 2)
+        {
+            _itemDetails.UpdateItemDetailsOverlay(item.Properties.ItemName, item.Properties.Weight, item.Properties.Value, item.Properties.Description, item.Properties.Category.ToString());
+        }
+        Destroy(item.gameObject);
         animator.SetBool("Pickup", false);
+    }
+
+    private void OpenCloseInventory()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            _gamePaused = !_gamePaused;
+            _inventoryOverlay.SetActive(!_inventoryOverlay.activeSelf);
+            Cursor.lockState = _gamePaused ? CursorLockMode.None : CursorLockMode.Locked;
+        }
     }
 }

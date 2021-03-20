@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Broom
   m_EditorClassIdentifier: 
   ItemName: Broom
-  Weight: 0
-  Value: 0
-  Description: 
-  Category: 
+  Weight: 2.5
+  Value: 2
+  Description: An improvised weapon. Can be dangerous if swung against someone's
+    nose.
+  Category: 1

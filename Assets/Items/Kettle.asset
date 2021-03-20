@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Kettle
   m_EditorClassIdentifier: 
   ItemName: Kettle
-  Weight: 0
-  Value: 0
-  Description: 
-  Category: 
+  Weight: 3.5
+  Value: 5
+  Description: A kettle that can be worn as a helmet. It offers more protection than
+    a basket.
+  Category: 2

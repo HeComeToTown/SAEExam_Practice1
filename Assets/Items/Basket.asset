@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Basket
   m_EditorClassIdentifier: 
   ItemName: Basket
-  Weight: 0
-  Value: 0
-  Description: 
-  Category: 
+  Weight: 0.5
+  Value: 5
+  Description: A straw basket that can be worn as a helmet.
+  Category: 2

@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Inventory
 {
-    public static Inventory Instance;
-
     public List<Item> inventory = new List<Item>();
     public float MaximumWeight;
     public float CurrentWeight;

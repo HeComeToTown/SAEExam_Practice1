@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Spoon
   m_EditorClassIdentifier: 
   ItemName: Spoon
-  Weight: 0
-  Value: 0
-  Description: 
-  Category: 
+  Weight: 0.2
+  Value: 1
+  Description: Were it more resistant, might have been usable to gouge someone's
+    eye out. Too bad it's made out of low quality wood...
+  Category: 3

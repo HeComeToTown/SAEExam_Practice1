@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Pickaxe
   m_EditorClassIdentifier: 
   ItemName: Pickaxe
-  Weight: 0
-  Value: 0
-  Description: 
-  Category: 
+  Weight: 10
+  Value: 3
+  Description: Great for mining and great for bashing people's faces in!
+  Category: 1

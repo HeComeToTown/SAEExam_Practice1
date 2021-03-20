@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Goo
   m_EditorClassIdentifier: 
   ItemName: Goo
-  Weight: 0
+  Weight: 0.1
   Value: 0
-  Description: 
-  Category: 
+  Description: Chuck it on the floot in front of you an someone by slip on it, remaining
+    knocked prone for a few omments.
+  Category: 0
